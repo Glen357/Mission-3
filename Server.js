@@ -15,14 +15,45 @@ app.use(
 app.use(express.json());
 
 app.get("/api/config", (req, res) => {
-  res.json({ apiUrl: `http://localhost:${PORT}/api` });
+  res.text({ apiUrl: `http://localhost:${PORT}/api` });
 });
 
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 64,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+};
+({
+  model: "gemini-1.5-pro",
+  systemInstruction:
+    "I want to be interviewed to fine tune my responses in an interview. I will provide a role title and the interview will begin. You will provide a welcome then ask one question specific to that role. I will answer that question. then you will acknowledge my answer without feedback, then ask the next question. There will be 2 questions and two answers. after that you can provide feed back on the answers I have provided",
+});
+
+async function run() {
+  const chatSession = model.startChat({
+    generationConfig,
+
+    history: [],
+  });
+
+  // let result = await chatSession.sendMessage("systemInstruction");
+  // console.log(result.response.text());
+  // result = await chatSession.sendMessage(" junior developer ");
+  // console.log(result.response.text());
+  const result = await chatSession.sendMessage(
+    "I want to be interviewed to fine tune my responses in an interview. I will provide a role title and the interview will begin. You will provide a welcome then ask one question specific to that role. I will answer that question. then you will acknowledge my answer without feedback, then ask the next question. There will be 2 questions and two answers. after that you can provide feed back on the answers I have provided"
+  );
+  console.log(result.response.text());
+}
 app.post("/api/generateContent", async (req, res) => {
   try {
     const prompt = req.body.prompt;
     const response = await model.generateContent(prompt);
-    res.json({ response, text }); // Validate this with actual response structure
+    res.json({ response });
   } catch (error) {
     console.error("Error generating content:", error);
     res.status(500).json({ error: "Failed to generate content" });
@@ -36,35 +67,6 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`The server is running on port ${PORT}`);
 });
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-({
-  model: "gemini-1.5-pro",
-  systemInstruction:
-    "I want to be interviewed to fine tune my responses in an interview. I will provide a role title and the interview will begin. You will provide a welcome then ask one question specific to that role. I will answer that question. then you will acknowledge my answer without feedback, then ask the next question. There will be 2 questions and two answers. after that you can provide feed back on the answers I have provided",
-});
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
-};
-
-async function run() {
-  const chatSession = model.startChat({
-    generationConfig,
-    // safetySettings: Adjust safety settings
-    // See https://ai.google.dev/gemini-api/docs/safety-settings
-    history: [],
-  });
-
-  const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
-  console.log(result.response.text());
-}
-
 run();
 
 // async function chat() {
