@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./App.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -6,12 +7,13 @@ const API_URL = import.meta.env.VITE_API_URL;
 console.log("API URL:", API_URL);
 
 async function getGeneratedContent(prompt) {
-  const response = await fetch(`${API_URL}/generateContent`, {
+  console.log(prompt);
+  const response = await axios(`${API_URL}/generateContent`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ prompt }),
+    body: prompt,
   });
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`); // Better error handling
@@ -25,8 +27,10 @@ function InterviewApp() {
   const [conversation, setConversation] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
 
-  const handleJobTitleSubmit = async () => {
+  const handleJobTitleSubmit = async (event) => {
+    event.preventDefault();
     const prompt = jobTitle;
+    console.log(prompt);
     const initialQuestion = await getGeneratedContent(prompt);
     setConversation([{ role: "User", text: initialQuestion }]);
   };
@@ -88,6 +92,8 @@ function InterviewApp() {
 }
 
 export default InterviewApp;
+
+// ***************************************************************************************
 
 // async function getGeneratedContent(prompt) {
 //   const result = await model.generateContent(prompt);
