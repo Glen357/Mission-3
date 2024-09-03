@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import "./App.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -8,18 +8,18 @@ console.log("API URL:", API_URL);
 
 async function getGeneratedContent(prompt) {
   console.log(prompt);
-  const response = await axios(`${API_URL}/generateContent`, {
+  const response = await fetch(`${API_URL}/generateContent`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: prompt,
+    body: JSON.stringify({ "prompt": prompt}),
   });
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`); // Better error handling
   }
   const data = await response.json();
-  return data;
+  return data.response;
 }
 
 function InterviewApp() {
