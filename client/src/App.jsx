@@ -1,6 +1,6 @@
 import { useState } from "react";
-// import axios from "axios";
-import "./App.css";
+import myStyles from "./App.module.css";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -56,7 +56,11 @@ function InterviewApp() {
     .join("\n");
 
   return (
-    <div>
+    <>
+    <div className= {myStyles.headerContainer}><header><h1>Welcome To Your Personal Interview Coach</h1></header></div>
+    <div className= {myStyles.pageContainer}>
+      <div className= {myStyles.interactSpace}>
+          <div className= {myStyles.jobTitleBox}>
       {/* this is the job title input field */}
       <input
         type="text"
@@ -65,21 +69,25 @@ function InterviewApp() {
         placeholder="Enter the Job Title"
       />
       <button onClick={handleJobTitleSubmit}>Start Interview</button>
+      </div>
       {/* this is where you answer the chatbots questions it uses a map method to render an array of items as a list of html properties,(turning strings into paragraphs)
       It also sets an index position with the key prop(so that react knows which items have changed), and embeds dynamic content or a JSX expression in the html*/}
-      <textarea
-        rows="10"
+      <div className= {myStyles.conversationSpace}>
+      {/* <textarea
+        rows="auto"
         cols="50"
         readOnly
         value={conversationText}
-        style={{ width: "100%", marginTop: "20px" }}
-      />
+        style={{ width: "97%", marginTop: "15px" }}
+      /> */}
       <div>
         {conversation.map((response, index) => (
           <p key={index}>{response.text}</p>
         ))}
       </div>
+      </div>
       {/* this is where the answer to the chatbots question is answered by the user, and the button to submit it */}
+      <div className= {myStyles.responseBox}>
       <input
         type="text"
         value={currentAnswer}
@@ -87,25 +95,12 @@ function InterviewApp() {
         placeholder="Write your response"
       />
       <button onClick={handleAnswerSubmit}>Submit Response</button>
+      </div>
+      </div>
     </div>
+    </>
   );
 }
 
 export default InterviewApp;
 
-// ***************************************************************************************
-
-// async function getGeneratedContent(prompt) {
-//   const result = await model.generateContent(prompt);
-//   return result;
-// }
-
-// const response = await fetch("/api/jobtitle", {
-//   method: "POST",
-//   headers: {
-//     "content-type": "application.json",
-//   },
-//   body: JSON.stringify({ title: jobTitle }),
-// });
-// const data = await response.json();
-// console.log(data, "job title has been defined");

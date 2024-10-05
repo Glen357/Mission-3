@@ -13,7 +13,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const systemInstruction =
   "I want to be interviewed to fine tune my responses in an interview. I will provide a role title and the interview will begin. You will provide a welcome then ask one question specific to that role. I will answer that question. then you will acknowledge my answer without feedback, then ask the next question. There will be 2 questions and two answers. after that you can provide feed back on the answers I have provided";
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-pro",
+  model: "gemini-1.5-flash",
   systemInstruction,
 });
 

@@ -1,0 +1,49 @@
+.headerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.pageContainer {
+  margin-left: 28%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.pageContainer button,
+input {
+  width: 200px;
+}
+
+.interactSpace {
+  background-image: url(./interactionSpace1.png);
+  background-repeat: no-repeat;
+  width: 60vw;
+  height: 150vh;
+}
+
+.jobTitleBox {
+  display: flex;
+  flex-direction: row;
+  margin-top: 380px;
+  margin-left: 220px;
+}
+
+.conversationSpace {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+  margin-left: 200px;
+  width: 450px;
+  height: 300px;
+  overflow: auto;
+}
+
+.responseBox {
+  display: flex;
+  flex-direction: row;
+  margin-top: 4%;
+  margin-left: 220px;
+}
