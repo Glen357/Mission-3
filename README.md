@@ -50,4 +50,5 @@ Future Improvements
 adjust onClick to hand keyPress
 Add more comprehensive feedback.
 Extend the conversation for more questions.
+Make application responsive for different device sizes.
 Integrate a logging system for analytics.
