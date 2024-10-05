@@ -73,13 +73,13 @@ function InterviewApp() {
       {/* this is where you answer the chatbots questions it uses a map method to render an array of items as a list of html properties,(turning strings into paragraphs)
       It also sets an index position with the key prop(so that react knows which items have changed), and embeds dynamic content or a JSX expression in the html*/}
       <div className= {myStyles.conversationSpace}>
-      <textarea
+      {/* <textarea
         rows="auto"
         cols="50"
         readOnly
         value={conversationText}
         style={{ width: "97%", marginTop: "15px" }}
-      />
+      /> */}
       <div>
         {conversation.map((response, index) => (
           <p key={index}>{response.text}</p>
