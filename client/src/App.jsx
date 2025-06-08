@@ -2,7 +2,7 @@ import { useState } from "react";
 import myStyles from "./App.module.css";
 
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 console.log("API URL:", API_URL);
 
